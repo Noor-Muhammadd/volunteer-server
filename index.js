@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require("mongodb").ObjectId;
-// require("dotenv").config();
+require("dotenv").config();
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.zjved.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 
 const app = express()
@@ -16,6 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = 5000
 
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.e8uzr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 // const pass = "p9YvYKCTMPv2Ljc"
 
@@ -24,31 +29,32 @@ app.get('/', (req, res) => {
 })
 
 
-const uri = "mongodb+srv://volunteer:p9YvYKCTMPv2Ljc@cluster0.zjved.mongodb.net/organicdb?retryWrites=true&w=majority";
+// const uri = "mongodb+srv://volunteer:p9YvYKCTMPv2Ljc@cluster0.zjved.mongodb.net/organicdb?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("organicdb").collection("products");
   const Numcollection = client.db("organicdb").collection("number");
 
-  // console.log("Data Base ConnCTED")
+  console.log("Data Base ConnCTED")
   // const product = {name : "Noor", price : 34}
   // Numcollection.insertOne(product)
   // .then(result => {
   //   console.log(3233)
   // })
+//   console.log(process.env.DB_PASS)
 
   app.post("/addBaseData", (req, res) => {
 		const baseData = req.body;
 		collection.insertMany(baseData)
 		.then((result) => {
 			console.log(result);
-			console.log(result.insertedCount, "All Data Inserted ✅");
+			console.log(result.insertedCount, "All Data Inserted");
 			res.send(result.insertedCount);
 		});
   });
   
 
-  app.get("/home", (req, res) => {
+  app.get("/hom", (req, res) => {
 		collection.find({}).toArray((err, docs) => {
 			res.send(docs);
 		});
@@ -105,6 +111,8 @@ client.connect(err => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+// app.listen(process.env.PORT || port);
+app.listen(port)
+// app.listen(port, () => {
+// 	console.log(`Example app listening at http://localhost:${port}`)
+//   })
