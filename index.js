@@ -18,8 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = 5000
 
-// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.e8uzr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 // const pass = "p9YvYKCTMPv2Ljc"
@@ -111,8 +109,8 @@ client.connect(err => {
 });
 
 
-// app.listen(process.env.PORT || port);
-app.listen(port)
+app.listen(process.env.PORT || port);
+// app.listen(port)
 // app.listen(port, () => {
 // 	console.log(`Example app listening at http://localhost:${port}`)
 //   })
